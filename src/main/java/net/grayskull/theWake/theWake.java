@@ -1,10 +1,19 @@
 package net.grayskull.theWake;
 
 import com.mojang.logging.LogUtils;
+import net.grayskull.theWake.block.ModBlocks;
+import net.grayskull.theWake.effect.ModEffects;
+import net.grayskull.theWake.entity.ModEntities;
+import net.grayskull.theWake.item.ModCreativeModeTabs;
+import net.grayskull.theWake.item.ModItems;
+import net.grayskull.theWake.painting.ModPaintings;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,9 +31,19 @@ public class theWake {
 
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    public theWake(FMLJavaModLoadingContext context)
-    {
+    public theWake(FMLJavaModLoadingContext context) {
+
         IEventBus modEventBus = context.getModEventBus();
+
+        ModCreativeModeTabs.register(modEventBus);
+
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+
+        ModPaintings.register(modEventBus);
+        ModEffects.register(modEventBus);
+
+        ModEntities.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -43,9 +62,13 @@ public class theWake {
     {
     }
 
+
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
+        if(event.getTabKey() == CreativeModeTabs.SEARCH) {
+            event.accept(ModItems.TEST_ITEM);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
