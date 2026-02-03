@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wake:test_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "wake:test_item"
+  }
+}
