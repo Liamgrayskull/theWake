@@ -16,10 +16,14 @@ public class CoughEffect extends MobEffect {
             Double y = pLivingEntity.getY();
             Double z = pLivingEntity.getZ();
 
-            pLivingEntity.teleportTo(x, y, z);
+            pLivingEntity.push(x, y, z);
             pLivingEntity.setDeltaMovement(0, 0, 0);
         }
         super.applyEffectTick(pLivingEntity, pAmplifier);
+    }
+
+    public void coughRate() {
+  // I don't know how to write methods oh god
     }
 
     @Override
