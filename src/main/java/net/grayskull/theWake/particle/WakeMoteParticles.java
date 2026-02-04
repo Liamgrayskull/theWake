@@ -15,13 +15,15 @@ public class WakeMoteParticles extends TextureSheetParticle {
         this.hasPhysics = false;
         this.gravity = -0.01f;
         this.scale(35.0F);
-        this.alpha = 255;
+
+
 
         this.setSpriteFromAge(spriteSet); // defines sprite
 
         this.rCol = 1f; // red
         this.gCol = 1f; // green
-        this.bCol = 0.2f; //blue...?
+        this.bCol = 1f; //blue...?
+        this.alpha = 255;
     }
 
 
