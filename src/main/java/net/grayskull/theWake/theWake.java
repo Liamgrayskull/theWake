@@ -4,16 +4,19 @@ import com.mojang.logging.LogUtils;
 import net.grayskull.theWake.block.ModBlocks;
 import net.grayskull.theWake.effect.ModEffects;
 import net.grayskull.theWake.entity.ModEntities;
+import net.grayskull.theWake.entity.client.RollingWakeRenderer;
 import net.grayskull.theWake.item.ModCreativeModeTabs;
 import net.grayskull.theWake.item.ModItems;
 import net.grayskull.theWake.painting.ModPaintings;
-import net.minecraft.world.item.CreativeModeTab;
+import net.grayskull.theWake.particle.ModParticles;
+import net.grayskull.theWake.particle.WakeMoteParticles;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -44,6 +47,7 @@ public class theWake {
         ModEffects.register(modEventBus);
 
         ModEntities.register(modEventBus);
+        ModParticles.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -83,9 +87,12 @@ public class theWake {
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-         
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.ROLLING_WAKE.get(), RollingWakeRenderer::new);
+        }
+        @SubscribeEvent // always include these!
+        public static void  registerParticleProvider(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticles.MOTE_PARTICLES.get(), WakeMoteParticles.Provider::new);
         }
     }
 }
