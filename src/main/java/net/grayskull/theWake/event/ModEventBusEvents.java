@@ -8,9 +8,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = theWake.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModEventBusEvents {
-    @SubscribeEvent
-    public static void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.ROLLING_WAKE.get(), RollingWakeEntity.createAttributes().build());
+    public class ModEventBusEvents {
+        @SubscribeEvent
+        public static void registerAttributes(EntityAttributeCreationEvent event) {
+            event.put(ModEntities.ROLLING_WAKE.get(), RollingWakeEntity.createAttributes().build());
+        }
     }
-}

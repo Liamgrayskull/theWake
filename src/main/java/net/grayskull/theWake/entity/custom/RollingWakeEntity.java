@@ -1,8 +1,9 @@
 package net.grayskull.theWake.entity.custom;
 
+import net.grayskull.theWake.effect.ModEffects;
 import net.grayskull.theWake.particle.ModParticles;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
+
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,13 +15,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.warden.WardenAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
-import static net.minecraft.world.entity.monster.warden.Warden.applyDarknessAround;
 
 public class RollingWakeEntity extends Mob implements TraceableEntity {
     public RollingWakeEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
@@ -40,6 +41,8 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
 
 
 
+
+
     } // consult more goals to add at package net.minecraft.world.entity.ai.goal;
 
 
@@ -53,9 +56,7 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
     }
 
     public boolean isAttackable() { return false; }
-    protected boolean canRide(Entity pVehicle) {
-        return false;
-    }
+    protected boolean canRide(Entity pVehicle) { return false; }
 
     protected float getSoundVolume() {
         return 4.0F;
@@ -64,7 +65,7 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
     public void aiStep() {
         if (this.level().isClientSide) {
             for(int i = 0; i < 2; ++i) {
-                this.level().addParticle(ModParticles.MOTE_PARTICLES.get(), this.getRandomX(3.5D), this.getRandomY() - 0.25D, this.getRandomZ(3.5D), (this.random.nextDouble() - 1.5D) * 2.0D, -this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 1.5D);
+                this.level().addParticle(ModParticles.MOTE_PARTICLES.get(), this.getRandomX(5.5D), this.getRandomY() - 0.25D, this.getRandomZ(5.5D), (this.random.nextDouble() - 1.5D) * 2.0D, -this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 1.5D);
             }
         }
 
@@ -79,13 +80,13 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
         this.level().getProfiler().pop();
         super.customServerAiStep();
         if ((this.tickCount + this.getId()) % 120 == 0) {
-            applyDarknessAround(serverlevel, this.position(), this, 20);
+            applyCoughAround(serverlevel, this.position(), this, 20);
         }
     }
 
 
-    public static void applyDarknessAround(ServerLevel pLevel, Vec3 pPos, @javax.annotation.Nullable Entity pSource, int pRadius) {
-        MobEffectInstance mobeffectinstance = new MobEffectInstance(MobEffects.DARKNESS, 260, 0, false, false);
+    public static void applyCoughAround(ServerLevel pLevel, Vec3 pPos, @javax.annotation.Nullable Entity pSource, int pRadius) {
+        MobEffectInstance mobeffectinstance = new MobEffectInstance(ModEffects.COUGH.get(), 260, 0, false, false);
         MobEffectUtil.addEffectToPlayersAround(pLevel, pSource, pPos, (double)pRadius, mobeffectinstance, 200);
     }
 
