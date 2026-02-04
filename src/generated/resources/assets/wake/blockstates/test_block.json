@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "wake:block/test_block"
+    }
+  }
+}
