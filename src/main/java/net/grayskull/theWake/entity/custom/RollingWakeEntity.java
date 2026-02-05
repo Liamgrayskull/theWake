@@ -18,12 +18,11 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.jetbrains.annotations.Nullable;
 
 
-public class RollingWakeEntity extends Mob implements TraceableEntity {
+public class RollingWakeEntity extends Mob {
     public RollingWakeEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -36,6 +35,9 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
         this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class,3000f)); // fog faces towards player,,, always? test, prob not ideal
         this.noPhysics = false;
         this.setNoGravity(true);
+        this.setPersistenceRequired();
+        this.requiresCustomPersistence();
+        this.setInvulnerable(true);
 
 
 
@@ -43,17 +45,9 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
 
 
 
-    } // consult more goals to add at package net.minecraft.world.entity.ai.goal;
 
-
-
-
-
-
-    public void move(MoverType pType, Vec3 pPos) {
-        super.move(pType, pPos);
-        this.checkInsideBlocks();
     }
+
 
     public boolean isAttackable() { return false; }
     protected boolean canRide(Entity pVehicle) { return false; }
@@ -64,13 +58,16 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
 
     public void aiStep() {
         if (this.level().isClientSide) {
-            for(int i = 0; i < 2; ++i) {
-                this.level().addParticle(ModParticles.MOTE_PARTICLES.get(), this.getRandomX(5.5D), this.getRandomY() - 0.25D, this.getRandomZ(5.5D), (this.random.nextDouble() - 1.5D) * 2.0D, -this.random.nextDouble(), (this.random.nextDouble() - 0.5D) * 1.5D);
+            for(int i = 0; i < 1; ++i) {
+                this.level().addParticle(ModParticles.MOTE_PARTICLES.get(), this.getRandomX(15.5D),
+                        this.getRandomY() + 2.25D, this.getRandomZ(15.5D), (this.random.nextDouble() - 1.5D) * 1.5D,
+                        -this.random.nextDouble(), (this.random.nextDouble() - 0.2D) * 1.5D);
             }
         }
 
         super.aiStep();
     }
+
 
 
 
@@ -80,7 +77,7 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
         this.level().getProfiler().pop();
         super.customServerAiStep();
         if ((this.tickCount + this.getId()) % 120 == 0) {
-            applyCoughAround(serverlevel, this.position(), this, 20);
+            applyCoughAround(serverlevel, this.position(), this, 60);
         }
     }
 
@@ -94,7 +91,11 @@ public class RollingWakeEntity extends Mob implements TraceableEntity {
         return SoundSource.WEATHER;
     }
 
+    @Override
+    public void checkDespawn() {
 
+        super.checkDespawn();
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
@@ -128,10 +129,6 @@ REFERENCE LATER FOR BLOCKS WHICH SUMMON FOG
 
  */
 
-    @Override
-    public @Nullable Entity getOwner() {
-        return null; // USE THIS LATER FOR COUGH SYMPTOM LOGIC
-    }
 
 
 

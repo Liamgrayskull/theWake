@@ -14,5 +14,8 @@ public class WakeFogRenderer {
         if (!(Minecraft.getInstance().gameRenderer.getMainCamera().getEntity() instanceof Player player)) return;
         coughEffect = player.getEffect(ModEffects.COUGH.get()); // REFACTOR THIS WHEN YOU KNOW WHAT TF YOU'RE DOING PLEASE
 
+
+
+
     }
 }

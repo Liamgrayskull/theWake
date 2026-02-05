@@ -10,11 +10,12 @@ public class WakeMoteParticles extends TextureSheetParticle {
                                 SpriteSet spriteSet, double pXSpeed, double pYSpeed, double pZSpeed) {
         super(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
 
-        this.friction = 0.8f;
-        this.lifetime = 280;
+        this.friction = 0.6f;
+        this.lifetime = 380;
         this.hasPhysics = false;
         this.gravity = -0.01f;
-        this.scale(35.0F);
+        this.scale(55.0F);
+
 
 
 
