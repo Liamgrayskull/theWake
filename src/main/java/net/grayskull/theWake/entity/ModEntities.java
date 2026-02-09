@@ -15,7 +15,7 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<RollingWakeEntity>> ROLLING_WAKE =
             ENTITY_TYPES.register("rolling_wake", () -> EntityType.Builder.of(RollingWakeEntity::new, MobCategory.MISC)
-                    .sized(1f,1f).build("rolling_wake"));
+                    .sized(1.0f,1.0f).build("rolling_wake"));
 
 
     public static void register(IEventBus eventBus) {
