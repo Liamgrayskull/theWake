@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
 public class CoughEffect extends MobEffect {
-    protected CoughEffect(MobEffectCategory pCategory, int pColor) {
+    public CoughEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
 

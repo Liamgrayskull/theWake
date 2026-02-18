@@ -28,14 +28,17 @@ public class RollingWakeEntity extends Vex {
 
     @Override
     public void registerGoals() {
-        super.registerGoals();
         this.setPersistenceRequired();
         this.setInvulnerable(true);
         this.targetSelector.removeGoal((new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
-
+        super.registerGoals();
     }
 
-    public void checkDespawn() { }
+    @Override
+    public boolean isInWall() {
+        return super.isInWall();
+    }
+
 
     public boolean isAttackable() { return false; }
 

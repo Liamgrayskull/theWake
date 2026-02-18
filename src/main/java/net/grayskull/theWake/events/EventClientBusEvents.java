@@ -1,4 +1,4 @@
-package net.grayskull.theWake.event;
+package net.grayskull.theWake.events;
 
 import net.grayskull.theWake.entity.client.ModModelLayers;
 import net.grayskull.theWake.entity.client.RollingWakeModel;
@@ -9,7 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = theWake.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ModEventClientBusEvents {
+public class EventClientBusEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.ROLLING_WAKE_LAYER, RollingWakeModel::createBodyLayer);

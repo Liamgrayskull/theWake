@@ -35,10 +35,10 @@ public class VeilRenderer {
         var level = Minecraft.getInstance().level;
         if (level == null) return;
 
-        var range = 14;
+        var range = 34;
         var at = player.position().add((level.random.nextDouble
                 () - 0.5) * range, level.random.nextDouble
-                () * 4 - 2, (level.random.nextDouble() - 0.5) * range);
+                () * 8 - 2, (level.random.nextDouble() - 0.5) * range);
         var blockAt = BlockPos.containing(at.x, at.y, at.z);
 
         var below = level.getBlockState(blockAt.below());
@@ -87,7 +87,7 @@ public class VeilRenderer {
         return VeilRenderer.activeEffect().flatMap(MobEffectInstance::getFactorData).map(factorData -> {
             Entity camE = Minecraft.getInstance().gameRenderer.getMainCamera().getEntity();
             if (!(camE instanceof LivingEntity le)) return null;
-            float horizon = Mth.lerp(factorData.getFactor(le, partialTicks), end, 15F);
+            float horizon = Mth.lerp(factorData.getFactor(le, partialTicks), end, 30F);
             float vicinity = (mode == FogRenderer.FogMode.FOG_SKY ? -2F : horizon * -0.5F);
             return new float[]{vicinity, horizon};
         }).orElse(null);

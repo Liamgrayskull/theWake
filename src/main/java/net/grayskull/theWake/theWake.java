@@ -1,6 +1,5 @@
 package net.grayskull.theWake;
 
-import com.mojang.logging.LogUtils;
 import net.grayskull.theWake.block.ModBlocks;
 import net.grayskull.theWake.effect.ModEffects;
 import net.grayskull.theWake.entity.ModEntities;
@@ -24,16 +23,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
-
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(theWake.MOD_ID)
 public class theWake {
-    // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "wake";
-
-    // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
     public theWake(FMLJavaModLoadingContext context) {
 
         IEventBus modEventBus = context.getModEventBus();
@@ -49,7 +41,7 @@ public class theWake {
         ModEntities.register(modEventBus);
         ModParticles.register(modEventBus);
 
-        // Register the commonSetup method for modloading
+
         modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in
