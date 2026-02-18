@@ -1,13 +1,10 @@
 package net.grayskull.theWake.effect;
 
-
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
-public class CoughEffect extends MobEffect {
-    protected CoughEffect(MobEffectCategory pCategory, int pColor) {
+public class WokenEffect extends MobEffect {
+    public WokenEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
-
-
 }

@@ -12,9 +12,14 @@ public class ModParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, theWake.MOD_ID);
 
-    public static final RegistryObject<SimpleParticleType> MOTE_PARTICLES =
-            PARTICLE_TYPES.register("mote", () -> new SimpleParticleType(true)); // if "pOverrideLimiter = true", particles SHOULD still show up even if players limit particles in options
-
+    public static final RegistryObject<SimpleParticleType> MASS_PARTICLES =
+            PARTICLE_TYPES.register("mass", () -> new SimpleParticleType(true)); // if "pOverrideLimiter = true", particles SHOULD still show up even if players limit particles in options
+    /* public static final RegistryObject<SimpleParticleType> MOTE_PARTICLES =
+            PARTICLE_TYPES.register("mote", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> WISP_PARTICLES =
+            PARTICLE_TYPES.register("wisp", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> WILLOW_PARTICLES =
+            PARTICLE_TYPES.register("willow", () -> new SimpleParticleType(true)); */
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }

@@ -13,7 +13,8 @@ public class ModEffects {
             = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, theWake.MOD_ID);
 
     public static final RegistryObject<MobEffect> COUGH = MOB_EFFECTS.register("cough", () -> new CoughEffect(MobEffectCategory.HARMFUL, 3124687));
-
+    public static final RegistryObject<MobEffect> WOKEN = MOB_EFFECTS.register("woken", () -> new WokenEffect(MobEffectCategory.HARMFUL, 3143687));
+    public static final RegistryObject<MobEffect> VEILED = MOB_EFFECTS.register("veiled", () -> new VeiledEffect(MobEffectCategory.NEUTRAL, 2039587));
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
     }

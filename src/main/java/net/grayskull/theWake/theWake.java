@@ -9,7 +9,7 @@ import net.grayskull.theWake.item.ModCreativeModeTabs;
 import net.grayskull.theWake.item.ModItems;
 import net.grayskull.theWake.painting.ModPaintings;
 import net.grayskull.theWake.particle.ModParticles;
-import net.grayskull.theWake.particle.WakeMoteParticles;
+import net.grayskull.theWake.particle.WakeMassParticles;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -89,10 +89,11 @@ public class theWake {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.ROLLING_WAKE.get(), RollingWakeRenderer::new);
+
         }
         @SubscribeEvent // always include these!
         public static void  registerParticleProvider(RegisterParticleProvidersEvent event) {
-            event.registerSpriteSet(ModParticles.MOTE_PARTICLES.get(), WakeMoteParticles.Provider::new);
+            event.registerSpriteSet(ModParticles.MASS_PARTICLES.get(), WakeMassParticles.Provider::new);
         }
     }
 }

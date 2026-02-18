@@ -1,4 +1,4 @@
 package net.grayskull.theWake.particle;
 
-public class WakeMoteParticles {
+public class WakeWispParticles {
 }
