@@ -2,65 +2,99 @@ package net.grayskull.theWake.events;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.grayskull.theWake.effect.ModEffects;
-import net.grayskull.theWake.theWake;
 import net.minecraft.Util;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
+@Mod.EventBusSubscriber
 public class ClientEvents {
 
-    void onClientTick(Minecraft minecraft) {
+    private static String lastShader = null;
 
-        Player player = minecraft.player;
-        applyShader(player, minecraft);
-    }
-        private static String lastAppliedShader = null;
+    public static void applyShader(Minecraft minecraft) {
+        GameRenderer renderer = Minecraft.getInstance().gameRenderer;
+        String ShaderRenderer = null;
+        Player player;
+        player = minecraft.player;
+        if (player == null) return;
 
-    private static void applyShader(Player player, Minecraft mc) {
-        if (lastAppliedShader == null) {
-            GameRenderer renderer = Minecraft.getInstance().gameRenderer;
+        if (lastShader == null) {
+            ShaderRenderer = renderer.currentEffect() == null ? null : renderer.currentEffect().getName();
 
-            String rendererShader = renderer.currentEffect() == null ? null : renderer.currentEffect().getName(); //IMPORTANT! check if posteffect = currenteffect
+            if (ShaderRenderer != null && WAKE_SHADERS.contains(ShaderRenderer)) {
+                return;
+            }
+            if (player.isSpectator()) {
+                if (ShaderRenderer != null && lastShader != null) {
+                    renderer.shutdownEffect();
+                    lastShader = null;
+                }
+                return;
+            }
+
+            if (ShaderRenderer == null && lastShader != null) {
+                lastShader = null;
+            } //clears when something else unsets it, prob remove this
+        }
 
 
-            ItemStack stack =
-                    player.getItemBySlot(EquipmentSlot.HEAD).isEmpty() ? null : player.getItemBySlot(EquipmentSlot.HEAD);
-
-            Item item = stack.getItem();
-
-            if (mc.options.getCameraType() == CameraType.FIRST_PERSON) {};
 
 
 
-            if (rendererShader != null ) {}
+
+
+
+        String newShader;
+        if (minecraft.options.getCameraType() == CameraType.FIRST_PERSON) {
+            newShader = SHADER_EFFECTS.get(WAKE_SHADERS);
+        } else newShader = null;
+
+
+        if (newShader != null && (!
+                newShader.equals(ShaderRenderer) || renderer.currentEffect() != null)) {
+            renderer.loadEffect(new ResourceLocation(newShader));
+            lastShader = newShader;
+        } else if (ShaderRenderer != null && newShader == null) {
+            // remove effect
+            renderer.shutdownEffect();
+            lastShader = null;
         }
     }
 
-    private static final Map<ModEffects, String> SHADER_ON_EFFECT = Util.make(() -> { var map = new
-        Object2ObjectOpenHashMap<RegistryObject<MobEffect>, String>(); map = new Object2ObjectOpenHashMap<>();
-        map.put(ModEffects.VEILED, "minecraft:shaders/post/phosphor.json");
-        map.put(ModEffects.COUGH, "minecraft:shaders/post/wobble.json");
-        map.put(ModEffects.WOKEN, "minecraft:shaders/post/invert.json");
 
 
-                return map;
-    });
+private static final Object2ObjectOpenHashMap<RegistryObject<MobEffect>, String> SHADER_EFFECTS = Util.make(() -> {
+    Object2ObjectOpenHashMap<RegistryObject<MobEffect>, String> map = new Object2ObjectOpenHashMap<>();
+    map.put(ModEffects.VEILED, "minecraft:shaders/post/creeper.json");
+    return map;
+});
 
+    private static final Set<String> WAKE_SHADERS;
 
-    private static boolean hasVeiledEffect(Player player, MobEffect mobEffect) {
-        return player.hasEffect(ModEffects.VEILED.get());
+    static {
+        WAKE_SHADERS = new HashSet<>(SHADER_EFFECTS.values());
     }
 
-
-
+    static void onClientTick(Minecraft minecraft) {
+        Player player;
+        player = minecraft.player;
+        ClientEvents.applyShader(minecraft);
+    }
+        @SubscribeEvent
+        public static void onClientEndTick (TickEvent.ClientTickEvent event) {
+            if (event.phase == TickEvent.Phase.END) {
+                ClientEvents.onClientTick(Minecraft.getInstance());
+            }
+        }
 }
-
