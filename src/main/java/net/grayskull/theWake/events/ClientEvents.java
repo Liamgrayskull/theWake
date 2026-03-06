@@ -38,7 +38,6 @@ public class ClientEvents {
 
 
         String newShader = null;
-        if (minecraft.options.getCameraType() == CameraType.FIRST_PERSON) {
             if(player.hasEffect(ModEffects.VEILED.get())) {
                 newShader = SHADER_EFFECTS.get(ModEffects.VEILED);
             } else if (player.hasEffect(ModEffects.WOKEN.get())) {
@@ -46,11 +45,11 @@ public class ClientEvents {
             } else if (player.hasEffect(ModEffects.COUGH.get())) {
                 newShader = SHADER_EFFECTS.get(ModEffects.COUGH);
             }
-        }
 
 
-        if (newShader != null && !
-                newShader.equals(ShaderRenderer) || renderer.currentEffect() != null) {
+
+        if (newShader != null &&
+                !newShader.equals(ShaderRenderer)) {
             renderer.loadEffect(new ResourceLocation(newShader));
             lastShader = newShader;
         } else if (newShader == null && lastShader != null) {
